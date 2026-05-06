@@ -1,0 +1,40 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: cd client && npm install
+      
+      - name: Build project
+        run: cd client && npm run build
+      
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to production instance..."
+          # Add your production deployment command here
+          # Example: npm run deploy:prod
+          # Or use rsync, scp, Docker, Vercel, Netlify, etc.
+        env:
+          PROD_API_URL: ${{ secrets.PROD_API_URL }}
+          PROD_KEY: ${{ secrets.PROD_DEPLOY_KEY }}
+      
+      - name: Slack Notification (Optional)
+        if: always()
+        run: |
+          echo "Production deployment status: ${{ job.status }}"

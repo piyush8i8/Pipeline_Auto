@@ -1,0 +1,40 @@
+name: Deploy to Stage
+
+on:
+  push:
+    branches:
+      - stage
+
+jobs:
+  deploy-stage:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: cd client && npm install
+      
+      - name: Build project
+        run: cd client && npm run build
+      
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to staging instance..."
+          # Add your staging deployment command here
+          # Example: npm run deploy:stage
+          # Or use rsync, scp, Docker, etc.
+        env:
+          STAGE_API_URL: ${{ secrets.STAGE_API_URL }}
+          STAGE_KEY: ${{ secrets.STAGE_DEPLOY_KEY }}
+      
+      - name: Slack Notification (Optional)
+        if: always()
+        run: |
+          echo "Stage deployment status: ${{ job.status }}"
