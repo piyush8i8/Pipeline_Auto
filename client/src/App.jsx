@@ -100,7 +100,7 @@ function App() {
       <nav style={styles.nav}>
         <div style={{ fontWeight: 'bold', fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <img src={viteLogo} height="30" alt="Logo" />
-          <span>NovaStack</span>
+          <span>testing</span>
         </div>
         <div style={{ display: 'none', gap: '20px' }}> {/* Desktop Menu */}
           <a href="#services" style={{ textDecoration: 'none', color: theme.dark }}>Services</a>
@@ -114,9 +114,9 @@ function App() {
           <img src={heroImg} width="140" style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))' }} alt="Hero" />
           <img src={reactLogo} style={{ position: 'absolute', bottom: -10, right: -10, height: '40px' }} alt="React" />
         </div>
-        <h1 style={styles.title}>Scalable Solutions for Modern Teams.</h1>
+        <h1 style={styles.title}>🚀 Scalable Solutions for Modern Teams.</h1>
         <p style={styles.subtitle}>
-          We help enterprises build, deploy, and scale digital products with cutting-edge technology and seamless user experiences.
+          Testing automated CI/CD pipeline! We help enterprises build, deploy, and scale digital products with cutting-edge technology and seamless user experiences.
         </p>
         <button 
           style={styles.button}
