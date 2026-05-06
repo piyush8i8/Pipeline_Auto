@@ -24,17 +24,15 @@ jobs:
       - name: Build project
         run: cd client && npm run build
       
-      - name: Deploy to Staging
+      - name: Deploy to Vercel (Staging)
         run: |
-          echo "Deploying to staging instance..."
-          # Add your staging deployment command here
-          # Example: npm run deploy:stage
-          # Or use rsync, scp, Docker, etc.
+          npm install -g vercel
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_ORG_ID }}
+        working-directory: ./client
         env:
-          STAGE_API_URL: ${{ secrets.STAGE_API_URL }}
-          STAGE_KEY: ${{ secrets.STAGE_DEPLOY_KEY }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_STAGE }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       
-      - name: Slack Notification (Optional)
-        if: always()
+      - name: Comment PR with Staging URL
         run: |
-          echo "Stage deployment status: ${{ job.status }}"
+          echo "✅ Deployed to staging"

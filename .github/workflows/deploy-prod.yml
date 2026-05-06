@@ -24,17 +24,15 @@ jobs:
       - name: Build project
         run: cd client && npm run build
       
-      - name: Deploy to Production
+      - name: Deploy to Vercel (Production)
         run: |
-          echo "Deploying to production instance..."
-          # Add your production deployment command here
-          # Example: npm run deploy:prod
-          # Or use rsync, scp, Docker, Vercel, Netlify, etc.
+          npm install -g vercel
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_ORG_ID }}
+        working-directory: ./client
         env:
-          PROD_API_URL: ${{ secrets.PROD_API_URL }}
-          PROD_KEY: ${{ secrets.PROD_DEPLOY_KEY }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       
-      - name: Slack Notification (Optional)
-        if: always()
+      - name: Deployment Success
         run: |
-          echo "Production deployment status: ${{ job.status }}"
+          echo "🚀 Production deployment successful!"
