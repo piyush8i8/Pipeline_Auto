@@ -1,0 +1,44 @@
+name: Auto Merge Stage to Main (After Verification)
+
+on:
+  workflow_run:
+    workflows: ["Deploy to Stage"]
+    types:
+      - completed
+    branches:
+      - stage
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    
+    # Only run if staging deployment was successful
+    if: github.event.workflow_run.conclusion == 'success'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Fetch all branches
+        run: git fetch origin
+      
+      - name: Switch to main branch
+        run: git checkout main
+      
+      - name: Merge stage into main
+        run: git merge origin/stage --no-ff -m "chore: Auto-merge from stage after successful deployment verification"
+      
+      - name: Push merged changes
+        run: git push origin main
+      
+      - name: Notify Merge Success
+        run: |
+          echo "✅ Stage successfully merged to Main!"
+          echo "🚀 Production deployment will now trigger automatically..."

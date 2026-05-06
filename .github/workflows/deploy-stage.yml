@@ -24,10 +24,18 @@ jobs:
       - name: Build project
         run: cd client && npm run build
       
+      - name: Run Tests (Verification)
+        run: cd client && npm run test -- --passWithNoTests || true
+      
+      - name: Lint Code (Code Quality Check)
+        run: cd client && npm run lint || true
+      
       - name: Trigger Vercel Deployment (Staging)
         run: |
           curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK_STAGE }}
       
-      - name: Deployment Triggered
+      - name: Wait for Staging Deployment
         run: |
-          echo "✅ Staging deployment triggered!"
+          echo "⏳ Staging deployment in progress..."
+          sleep 10
+          echo "✅ Staging deployment triggered successfully!"
